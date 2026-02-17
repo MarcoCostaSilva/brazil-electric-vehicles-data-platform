@@ -1,63 +1,212 @@
-# Banco de Dados Relacional e Plataforma de Visualização para Análise Estatística de Veículos Elétricos no Brasil
+# ⚡ Electric Vehicles Data Platform – Brazil  
+# ⚡ Plataforma de Dados de Veículos Elétricos – Brasil
 
 ---
 
-## Visão Geral
+## 📌 Overview | Visão Geral
 
-Este repositório implementa um sistema completo de integração e análise de dados sobre a frota de veículos elétricos e híbridos no Brasil, desenvolvido como projeto de Iniciação Científica no Bacharelado em Estatística pelo Centro Universitário das Faculdades Metropolitanas Unidas (FMU). O escopo abrange a coleta, padronização e modelagem de dados provenientes do Sistema Nacional de Trânsito (SENATRAN), disponibilizados via plataforma Fórum VE, resultando em um banco de dados relacional MySQL com 487.114 registros até maio de 2025.
+🇺🇸  
+This project implements a complete Data Engineering and Analytics platform focused on the Brazilian electric and hybrid vehicle fleet. It integrates data collection, relational modeling, ETL processes, and interactive dashboards for statistical analysis and public policy insights.
 
-A plataforma utiliza Python com Streamlit para interfaces web interativas, Pandas para processamento de dados, Plotly para visualizações dinâmicas e SQL parametrizado para consultas otimizadas. As análises focam em dimensões espaciais (distribuição por região/estado/cidade), tecnológicas (BEV, PHEV, HEV, FCEV, MHEV etc.), temporais (evolução desde 1973) e de mercado (fabricantes e modelos). Os resultados subsidiam políticas públicas alinhadas aos ODS 7, 9, 11, 12 e 13, e programas nacionais como Rota 2030, PNME e PNE 2050.
+The system was developed as a Scientific Initiation Project in the Bachelor’s Degree in Statistics and is based on official data from SENATRAN, made available through the Fórum VE platform.
 
-**Estatísticas Principais:**
-- **Frota Total**: 487.114 veículos.
-- **Fabricantes**: 123, com liderança da BYD (33,6%).
-- **Modelos**: 560, destacando BYD Dolphin Mini GL EV e Toyota Corolla Hybrid.
-- **Distribuição Espacial**: Concentração no Sudeste/Sul (ex.: São Paulo, DF, RJ); baixa penetração no Norte/Nordeste.
-- **Evolução Temporal**: Fases de introdução (1973-2001), crescimento moderado (2002-2017) e expansão acelerada (2018-2025).
+🇧🇷  
+Este projeto implementa uma plataforma completa de Engenharia e Análise de Dados voltada à frota brasileira de veículos elétricos e híbridos. Integra coleta de dados, modelagem relacional, processos de ETL e dashboards interativos para análise estatística e suporte a políticas públicas.
 
-O repositório promove reprodutibilidade, com código-fonte, scripts de ETL, banco de dados modelado e deploy configurado para Streamlit Cloud. Contribuições são bem-vindas via pull requests, seguindo as diretrizes de código limpo e testes unitários.
+O sistema foi desenvolvido como Projeto de Iniciação Científica no Bacharelado em Estatística, utilizando dados oficiais do SENATRAN disponibilizados via plataforma Fórum VE.
 
 ---
 
-## Objetivos
+## 📊 Key Statistics | Estatísticas Principais
 
-### Objetivo Geral
-Implementar um banco de dados relacional em MySQL para consolidação, validação e análise estatística de dados de veículos elétricos, integrado a uma plataforma de visualização com dashboards interativos e relatórios automatizados, facilitando a exploração de tendências e suporte a decisões baseadas em evidências.
-
-### Objetivos Específicos
-- Coletar e padronizar dados do SENATRAN/Fórum VE, aplicando normalização e tratamento de inconsistências.
-- Projetar esquema relacional com integridade referencial (chaves primárias/estrangeiras, índices compostos).
-- Hospedar em ambiente MySQL remoto com SSL (Aiven Cloud) e consultas parametrizadas para eficiência.
-- Desenvolver interfaces Streamlit com filtros multinível, agregações Pandas e renderização Plotly.
-- Gerar relatórios exportáveis (CSV, Excel, DOCX, PDF) via bibliotecas como openpyxl e fpdf.
-- Documentar pipeline de ETL e análises para reprodutibilidade acadêmica e industrial.
+- Total Fleet | Frota Total: **487,114 veículos**
+- Manufacturers | Fabricantes: **123**
+- Models | Modelos: **560**
+- Market Leader | Líder de mercado: **BYD (~33.6%)**
+- Strong regional concentration in Southeast and South regions
 
 ---
 
-## Arquitetura do Sistema
+## 🎯 Objectives | Objetivos
 
-O sistema segue uma arquitetura em camadas:
+### 🇺🇸 General Objective
+To implement a relational MySQL database for consolidation, validation, and statistical analysis of electric vehicle data, integrated with an interactive visualization platform.
 
-1. **Camada de Dados**: Banco MySQL com tabelas normalizadas (ex.: `regiao`, `estado`, `cidade`, `modelo`, `tecnologia`, `cidade_tipo_modelo` com agregações de quantidade).
-2. **Camada de Processamento**: Scripts Python para ETL (Extração via API Fórum VE, Transformação com Pandas, Carga via mysql-connector-python).
-3. **Camada de Apresentação**: Aplicações Streamlit com cache (@st.cache_data/resource) para queries e renderização dinâmica.
-4. **Integração**: Conexão SSL segura; deploy em Streamlit Cloud com secrets.toml.
+### 🇧🇷 Objetivo Geral
+Implementar um banco de dados relacional em MySQL para consolidação, validação e análise estatística de dados de veículos elétricos, integrado a uma plataforma interativa de visualização.
 
-Diagrama conceitual do esquema de dados (insira imagem aqui, gerada via PlantUML ou Draw.io, e commite como `./docs/er_diagram.png`):
+### Specific Goals | Objetivos Específicos
 
-<img width="1088" height="653" alt="DER_ORIGINAL" src="https://github.com/user-attachments/assets/2e1749ca-8fd3-4771-936e-1902df313fb2" />
-
+- Data extraction and normalization from SENATRAN/Fórum VE
+- Relational schema design with referential integrity
+- ETL pipeline implementation using Python
+- Development of interactive dashboards with Streamlit
+- Automated export of reports (CSV, Excel, DOCX, PDF)
+- Reproducible and documented analytics workflow
 
 ---
-### requirements.txt
-```plaintext
-streamlit==1.50.0
-pandas==2.2.3
-plotly==5.24.1
-mysql-connector-python==9.0.0
-python-docx==1.1.2
-fpdf==1.7.2
-openpyxl==3.1.3
-geopandas==0.14.0  # Para análise espacial no Dashboard
-folium==0.15.2     # Para mapas interativos
 
+## 🏗 System Architecture | Arquitetura do Sistema
+
+The platform follows a layered architecture:
+
+### 1️⃣ Data Layer | Camada de Dados
+MySQL relational database with normalized tables:
+
+- `regiao`
+- `estado`
+- `cidade`
+- `fabricante`
+- `modelo`
+- `tecnologia`
+- `classificacao_veiculo`
+- `tipo_modelo_cidade`
+
+Referential integrity ensured via primary and foreign keys.
+
+### 2️⃣ Processing Layer | Camada de Processamento
+Python ETL scripts:
+
+- Data extraction
+- Cleaning and normalization (Pandas)
+- Loading into MySQL using `mysql-connector-python`
+
+### 3️⃣ Presentation Layer | Camada de Apresentação
+Interactive dashboards built with:
+
+- Streamlit
+- Plotly
+- Pandas aggregations
+- Parameterized SQL queries
+
+---
+
+## 🔎 Analytical Dimensions | Dimensões Analíticas
+
+The platform supports analysis across:
+
+- Spatial distribution (Region / State / City)
+- Technology types (BEV, PHEV, HEV, FCEV, MHEV)
+- Temporal evolution (since 1973)
+- Market structure (Manufacturers and Models)
+- Fleet growth patterns
+
+---
+
+## 🌎 Public Policy Alignment | Alinhamento com Políticas Públicas
+
+This project supports data-driven decision-making aligned with:
+
+- UN SDGs (7, 9, 11, 12, 13)
+- Rota 2030 Program
+- PNME (National Electric Mobility Policy)
+- PNE 2050 (National Energy Plan)
+
+---
+
+## 📂 Project Structure | Estrutura do Projeto
+
+```
+banco-veiculos-eletricos/
+│
+├── veiculos/                 # ETL and data processing scripts
+├── dashboard_streamlit.py    # Main Streamlit application
+├── requirements.txt
+├── docs/
+│   └── er_diagram.png        # Entity-Relationship diagram
+└── README.md
+```
+
+---
+
+## 🛠 Technologies Used | Tecnologias Utilizadas
+
+- Python  
+- Pandas  
+- MySQL  
+- SQL (Normalized Relational Modeling)  
+- Streamlit  
+- Plotly  
+- OpenPyXL  
+- FPDF  
+- GeoPandas  
+- Folium  
+
+---
+
+## 🚀 How to Run | Como Executar
+
+### 1️⃣ Clone repository
+
+```bash
+git clone https://github.com/MarcoCostaSilva/banco-veiculos-eletricos.git
+cd banco-veiculos-eletricos
+```
+
+### 2️⃣ Install dependencies
+
+```bash
+pip install -r requirements.txt
+```
+
+### 3️⃣ Configure database connection
+
+Create a `.streamlit/secrets.toml` file with:
+
+```
+[database]
+host = "your_host"
+user = "your_user"
+password = "your_password"
+database = "your_database"
+```
+
+### 4️⃣ Run Streamlit app
+
+```bash
+streamlit run dashboard_streamlit.py
+```
+
+---
+
+## 📈 Analytical Outputs | Resultados Analíticos
+
+- Regional concentration analysis
+- Technology adoption trends
+- Market share evolution
+- Interactive filtering by region, state, city, model, technology
+- Exportable analytical reports
+
+---
+
+## 📌 Future Improvements | Melhorias Futuras
+
+- Automated API integration
+- Cloud database optimization
+- Performance indexing strategies
+- Predictive modeling of fleet growth
+- Geographic clustering analysis
+- Deployment on scalable cloud infrastructure
+
+---
+
+## 🧩 Skills Demonstrated | Competências Demonstradas
+
+✔ Relational Database Modeling  
+✔ Data Engineering (ETL)  
+✔ SQL Optimization  
+✔ Dashboard Development  
+✔ Public Policy Data Analysis  
+✔ Statistical Interpretation  
+✔ Data Visualization  
+
+---
+
+## 👤 Author | Autor
+
+Marco Aurélio Costa da Silva  
+Data Scientist | Data-Oriented Full Stack Developer | Statistical Modeling  
+
+GitHub: https://github.com/MarcoCostaSilva  
+LinkedIn: https://linkedin.com/in/marco-costadasilva  
+Academic CV (Lattes Platform – Brazil): https://lattes.cnpq.br/8887305754672433
